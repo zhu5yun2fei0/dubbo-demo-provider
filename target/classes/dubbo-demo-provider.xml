@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<beans xmlns="http://www.springframework.org/schema/beans"  
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+    xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"  
+    xsi:schemaLocation="http://www.springframework.org/schema/beans  
+        http://www.springframework.org/schema/beans/spring-beans.xsd  
+        http://code.alibabatech.com/schema/dubbo  
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd  
+        ">       
+    <!-- 提供方应用名称  用于计算依赖关系 -->
+    <dubbo:application name="hello-world-app" />       
+    <!-- 使用zookeeper注册中心暴露服务地址 -->
+    <dubbo:registry  protocol="zookeeper" address="127.0.0.1:2181" />  
+    <!-- 使用dubbo协议  在20880端口暴露服务 -->
+    
+    <!-- 要在一台机器做集群的负载均衡的时候  只需修改此处的端口    生成环境时一般是部署在不同机器 可以修改或不修改 -->
+    <dubbo:protocol name="dubbo" port="20880" />
+    <!-- server实现类作为本地的一个bean -->        
+    <bean id="DemoProviderServer" class="com.yunfei.server.impl.DemoProviderServerImpl" />  
+    
+    <dubbo:service interface="com.yunfei.server.DemoProviderServer"  ref="DemoProviderServer" />
+    
+</beans>  
